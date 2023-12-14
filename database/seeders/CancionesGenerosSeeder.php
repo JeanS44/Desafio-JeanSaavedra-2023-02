@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Song;
+use App\Models\Genre;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\Eloquent\Factories\Factory;
 class CancionesGenerosSeeder extends Seeder
 {
     /**
@@ -14,16 +15,20 @@ class CancionesGenerosSeeder extends Seeder
      */
     public function run()
     {
-        $songs = DB::table('songs')->pluck('id')->toArray();
-        $genres = DB::table('genres')->pluck('id')->toArray();
+        // Obtener todas las canciones y géneros
+        $canciones = Song::all();
+        $generos = Genre::all();
 
-        foreach (range(1, 300) as $index) {
-            DB::table('songs_genres')->insert([
-                'song_id' => rand(1, count($songs)),
-                'genre_id' => rand(1, count($genres)),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        // Recorrer cada canción
+        foreach ($canciones as $cancion) {
+            // Obtener un número aleatorio de géneros (entre 1 y 3, puedes ajustar según tus necesidades)
+            $numeroGeneros = rand(1, 3);
+
+            // Obtener géneros aleatorios
+            $generosAsignados = $generos->random($numeroGeneros);
+
+            // Vincular la canción con los géneros
+            $cancion->generos()->attach($generosAsignados->pluck('id')->toArray());
         }
     }
 }
