@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call(RoleSeeder::class);
+        $this->call(AdministradorSeeder::class);
+        $this->call(ArtistasSeeder::class);
+        $this->call(GenerosSeeder::class);
+        $this->call(AlbumsSeeder::class);
+        $this->call(CancionesSeeder::class);
+        $this->call(CancionesGenerosSeeder::class);
+        $this->call(UsuariosCancionesSeeder::class);
     }
 }

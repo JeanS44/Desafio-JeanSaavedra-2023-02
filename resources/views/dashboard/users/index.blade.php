@@ -5,13 +5,14 @@
 
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        <table id="usersTable" class="display nowrap table-striped responsive" style="width:100%">
+        <table id="usersTable" class="display nowrap table table-striped responsive" style="width:100%">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Nombre(s)</th>
                     <th>Apellidos(s)</th>
                     <th>Nombre de Usuario</th>
+                    <th>Rol</th>
                     <th>Correo Electrónico</th>
                     <th>Fecha de Creación</th>
                 </tr>
@@ -23,6 +24,11 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->surname }}</td>
                         <td>{{ $user->username }}</td>
+                        <td>@php
+                            $roles = $user->getRoleNames()->toArray();
+                        @endphp
+                            {{ implode(' - ', $roles) }}
+                        </td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->created_at }}</td>
                     </tr>
@@ -41,10 +47,6 @@
 
 
 @push('datatables')
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js" type="text/Javascript">
-    </script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js" type="text/Javascript">
-    </script>
     <script src="https://code.jquery.com/jquery-3.7.0.js" type="text/Javascript"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" type="text/Javascript"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" type="text/Javascript"></script>
@@ -56,6 +58,10 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js" type="text/Javascript"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js" type="text/Javascript"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js" type="text/Javascript"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js" type="text/Javascript">
+    </script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js" type="text/Javascript">
+    </script>
     <script>
         new DataTable('#usersTable', {
             responsive: {
