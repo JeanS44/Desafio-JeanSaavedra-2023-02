@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Database\Seeders\RoleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CancionesSeeder::class);
         $this->call(CancionesGenerosSeeder::class);
         $this->call(UsuariosCancionesSeeder::class);
+        $this->call(ArtistasCancionesSeeder::class);
     }
 }

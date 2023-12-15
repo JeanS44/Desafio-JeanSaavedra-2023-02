@@ -5,7 +5,7 @@
 
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        <table id="artistTable" class="display nowrap table-striped responsive" style="width:100%">
+        <table id="artistTable" class="display nowrap table table-striped responsive" style="width:100%">
             <thead>
                 <tr>
                     <th>Id</th>

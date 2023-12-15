@@ -1,36 +1,76 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Canciones y sus Géneros')
-@section('miga', 'Vista Principal del Panel de Canciones y sus Géneros')
+@section('title', 'Roles')
+@section('miga', 'Vista Principal del Panel de Asignación de Roles')
 
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        <table id="songsGenresTable" class="display nowrap table table-striped responsive" style="width:100%">
+        <table id="userRolesTable" class="display nowrap table table-striped responsive" style="width:100%">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Canción</th>
-                    <th>Géneros</th>
+                    <th>id</th>
+                    <th>Nombre y Apellido</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Rol(es)</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($songs as $song)
+                @foreach ($getUsers as $user)
                     <tr>
-                        <td>{{ $song->id }}</td>
-                        <td>{{ $song->title }}</td>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }} {{ $user->surname }}</td>
+                        <td>{{ $user->username }}</td>
                         <td>
-                            @foreach ($song->generos as $genre)
-                                {{ $genre->name }}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
+                            @php
+                                $roles = $user->getRoleNames()->toArray();
+                            @endphp
+                            {{ implode(' - ', $roles) }}
+                        </td>
+                        <td>
+                            <button data-toggle="modal" data-target="#editRolesModal"
+                                class="btn btn-success">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <div class="modal fade" id="editRolesModal" tabindex="-1" role="dialog" aria-labelledby="editRolesModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRolesModalLabel">Editar Roles</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h1>
+                        {{ $user->id }}
+                    </h1>
+                    <form method="post" action="{{ route('usersroles.update', $user) }}">
+                        @csrf
+                        @foreach ($getRoles as $role)
+                            <div>
+                                <label>
+                                    <input type="checkbox" name="roles[]" value="{{ $role->id }}" class="mr-1"
+                                        {{ in_array($role->id, $user->roles->pluck('id')->toArray()) ? 'checked' : '' }}>
+                                    {{ $role->name }}
+                                </label>
+                            </div>
+                        @endforeach
+
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('css')
@@ -58,7 +98,7 @@
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js" type="text/Javascript">
     </script>
     <script>
-        new DataTable('#songsGenresTable', {
+        new DataTable('#userRolesTable', {
             responsive: {
                 details: {
                     type: 'column',

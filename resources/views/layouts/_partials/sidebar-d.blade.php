@@ -40,8 +40,10 @@
                     Géneros</a>
                 <a class="collapse-item" href="{{ route('songs.index') }}"><i class="bi bi-file-earmark-music-fill"></i>
                     Canciones</a>
-                <a class="collapse-item" href="{{ route('songsgenres.index') }}"><i class="bi bi-disc"></i> Canciones - Géneros</a>
-                <a class="collapse-item" href="{{ route('userssongs.index') }}"><i class="bi bi-headset"></i> Usuario - Canción</a>
+                <a class="collapse-item" href="{{ route('songsgenres.index') }}"><i class="bi bi-disc"></i> Canciones -
+                    Géneros</a>
+                <a class="collapse-item" href="{{ route('userssongs.index') }}"><i class="bi bi-headset"></i> Usuario -
+                    Canción</a>
             </div>
         </div>
     </li>
@@ -55,7 +57,10 @@
         </a>
         <div id="rolesYPermisos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('roles.index') }}"><i class="bi bi-person-lines-fill"></i> Roles</a>
+                <a class="collapse-item" href="{{ route('roles.index') }}"><i class="bi bi-person-lines-fill"></i>
+                    Roles</a>
+                <a class="collapse-item" href="{{ route('usersroles.index') }}"><i class="bi bi-plus-lg"></i> Asignar
+                    Roles</a>
                 <a class="collapse-item" href="{{ route('permissions.index') }}"><i class="bi bi-key"></i> Permisos</a>
             </div>
         </div>

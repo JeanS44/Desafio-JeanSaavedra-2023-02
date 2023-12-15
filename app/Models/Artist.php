@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Song;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Artist extends Model
 {
@@ -17,4 +18,9 @@ class Artist extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function canciones()
+    {
+        return $this->belongsToMany(Song::class, 'artists_songs');
+    }
 }

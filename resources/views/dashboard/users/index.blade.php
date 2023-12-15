@@ -3,8 +3,36 @@
 @section('title', 'Usuarios')
 @section('miga', 'Vista Principal del Panel de Usuarios')
 
+@section('addButton')
+    <div class="d-flex text-center">
+        <a class="btn btn-primary" href="{{ route('users.create') }}"><i class="bi bi-plus"></i></a>
+    </div>
+@endsection
+
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
+        @if (session()->has('delete'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="bi bi-trash3"></i>
+                {{ session('delete') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @elseif (session()->has('update'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check2-all"></i>
+                {{ session('update') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @elseif (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check2-all"></i>
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @endif
         <table id="usersTable" class="display nowrap table table-striped responsive" style="width:100%">
             <thead>
                 <tr>
@@ -12,9 +40,9 @@
                     <th>Nombre(s)</th>
                     <th>Apellidos(s)</th>
                     <th>Nombre de Usuario</th>
-                    <th>Rol</th>
                     <th>Correo Electrónico</th>
                     <th>Fecha de Creación</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,13 +52,26 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->surname }}</td>
                         <td>{{ $user->username }}</td>
-                        <td>@php
-                            $roles = $user->getRoleNames()->toArray();
-                        @endphp
-                            {{ implode(' - ', $roles) }}
-                        </td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->created_at }}</td>
+                        <td>
+                            <div class="d-flex gap-3">
+                                <a class="btn btn-success" href="{{ route('users.edit', $user->id) }}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-primary" href="{{ route('users.show', $user) }}">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash3">
+                                        </i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

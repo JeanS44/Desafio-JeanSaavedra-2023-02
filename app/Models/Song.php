@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Album;
+use App\Models\Genre;
+use App\Models\Artist;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -35,5 +37,10 @@ class Song extends Model
     public function usuarios()
     {
         return $this->belongsToMany(User::class, 'users_songs');
+    }
+
+    public function artistas()
+    {
+        return $this->belongsToMany(Artist::class, 'artists_songs');
     }
 }
