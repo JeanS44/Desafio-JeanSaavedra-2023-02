@@ -3,17 +3,54 @@
 @section('title', 'Canciones')
 @section('miga', 'Vista Principal del Panel de Canciones')
 
+@section('addButton')
+    <div class="d-flex text-center">
+        <a class="btn btn-primary" href="{{ route('songs.create') }}"><i class="bi bi-plus"></i></a>
+    </div>
+@endsection
+
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
+        @if (session()->has('delete'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-trash3"></i>
+                {{ session('delete') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @elseif (session()->has('update'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check2-all"></i>
+                {{ session('update') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @elseif (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check2-all"></i>
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @elseif (session()->has('alert'))
+            <div class="alert alert-success alert-warning fade show" role="alert">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ session('alert') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @endif
         <table id="songsTable" class="display nowrap table table-striped responsive" style="width:100%">
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nombre de la Canción</th>
-                    <th>Album de la Canción</th>
-                    <th>Año</th>
+                    <th>Título de la Canción</th>
+                    <th>Álbum de la Canción</th>
+                    <th>Artista(s) de la Canción</th>
+                    <th>Género(s) de la Canción</th>
                     <th>Imagen</th>
                     <th>Fecha de Creación</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,9 +59,45 @@
                         <td>{{ $song->id }}</td>
                         <td>{{ $song->title }}</td>
                         <td>{{ $song->album->title }}</td>
-                        <td>{{ $song->year }}</td>
-                        <td>{{ $song->cover_image }}</td>
+                        <td>
+                            @foreach ($song->artistas as $artista)
+                                {{ $artista->name }}
+                                @if (!$loop->last)
+                                    -
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach ($song->generos as $genre)
+                                {{ $genre->name }}
+                                @if (!$loop->last)
+                                    -
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            <img src="{{ asset($song->album->cover_img) }}" alt="{{ $song->album->title }}"
+                                class="img-fluid img-thumbnail mt-2" style="width: 70px; height: 70px;">
+                        </td>
                         <td>{{ $song->created_at }}</td>
+                        <td>
+                            <div class="d-flex gap-3">
+                                <a class="btn btn-success" href="{{ route('songs.edit', $song->id) }}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-primary" href="{{ route('songs.show', $song) }}">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <form action="{{ route('songs.destroy', $song->id) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash3">
+                                        </i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -58,6 +131,7 @@
     </script>
     <script>
         new DataTable('#songsTable', {
+            order: [7, 'asc'],
             responsive: {
                 details: {
                     type: 'column',

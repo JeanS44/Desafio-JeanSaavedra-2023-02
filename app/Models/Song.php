@@ -13,15 +13,10 @@ class Song extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
+        'album_id',
         'title',
-        'year',
-        'cover_image',
+        'cover_img',
     ];
 
     public function album()

@@ -12,7 +12,7 @@
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
         @if (session()->has('delete'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="bi bi-trash3"></i>
                 {{ session('delete') }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -105,6 +105,7 @@
     </script>
     <script>
         new DataTable('#usersTable', {
+            order: [[6, 'asc']],
             responsive: {
                 details: {
                     type: 'column',

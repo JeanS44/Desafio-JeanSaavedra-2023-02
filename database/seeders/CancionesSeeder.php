@@ -23,8 +23,7 @@ class CancionesSeeder extends Seeder
             DB::table('songs')->insert([
                 'album_id' => $faker->randomElement($albumIds),
                 'title' => $faker->unique()->sentence(3),
-                'year' => $faker->year,
-                'cover_image' => $faker->imageUrl(),
+                'cover_img' => $faker->imageUrl(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

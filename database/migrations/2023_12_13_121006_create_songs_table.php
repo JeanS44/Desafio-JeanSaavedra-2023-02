@@ -17,8 +17,7 @@ class CreateSongsTable extends Migration
             $table->id();
             $table->foreignId('album_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
-            $table->integer('year');
-            $table->string('cover_image');
+            $table->string('cover_img');
             $table->timestamps();
         });
     }

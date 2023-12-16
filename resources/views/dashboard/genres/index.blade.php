@@ -3,14 +3,43 @@
 @section('title', 'Géneros')
 @section('miga', 'Vista Principal del Panel de Géneros Musicales')
 
+@section('addButton')
+    <div class="d-flex text-center">
+        <a class="btn btn-primary" href="{{ route('genres.create') }}"><i class="bi bi-plus"></i></a>
+    </div>
+@endsection
+
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
+        @if (session()->has('delete'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-trash3"></i>
+                {{ session('delete') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @elseif (session()->has('update'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check2-all"></i>
+                {{ session('update') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @elseif (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check2-all"></i>
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+        @endif
         <table id="genresTable" class="display nowrap table table-striped responsive" style="width:100%">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Nombre del Género</th>
                     <th>Fecha de Creación</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,6 +48,24 @@
                         <td>{{ $genre->id }}</td>
                         <td>{{ $genre->name }}</td>
                         <td>{{ $genre->created_at }}</td>
+                        <td>
+                            <div class="d-flex gap-3">
+                                <a class="btn btn-success" href="{{ route('genres.edit', $genre->id) }}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-primary" href="{{ route('genres.show', $genre) }}">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <form action="{{ route('genres.destroy', $genre->id) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash3">
+                                        </i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -52,6 +99,7 @@
     </script>
     <script>
         new DataTable('#genresTable', {
+            order: [3, 'asc'],
             responsive: {
                 details: {
                     type: 'column',

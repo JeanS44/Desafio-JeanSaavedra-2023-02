@@ -24,7 +24,7 @@ class AlbumsSeeder extends Seeder
                 'title' => $faker->unique()->sentence(3),
                 'artist_id' => $faker->randomElement($artistIds),
                 'year' => $faker->year,
-                'cover_image' => $faker->imageUrl(),
+                'cover_img' => $faker->imageUrl(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
