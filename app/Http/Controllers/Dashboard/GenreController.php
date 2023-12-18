@@ -9,6 +9,15 @@ use Illuminate\Auth\Events\Registered;
 
 class GenreController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-boton-musica|ver-genero|ver-tabla-genero|crear-genero|editar-genero|mostrar-genero|borrar-genero', ['only' => ['index']]);
+        $this->middleware('permission:crear-genero', ['only' => ['create', 'store']]);
+        $this->middleware('permission:editar-genero', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:mostrar-genero', ['only' => ['show']]);
+        $this->middleware('permission:borrar-genero', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $genres = Genre::latest()->get();

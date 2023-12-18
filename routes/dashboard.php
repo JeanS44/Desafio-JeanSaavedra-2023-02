@@ -12,10 +12,11 @@ use App\Http\Controllers\Dashboard\UserRoleController;
 use App\Http\Controllers\Dashboard\UserSongController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\RolePermissionController;
 
 Route::get('/dashboard', DashboardController::class)
     ->name('dashboard.index')
-    ->middleware(['auth', 'verified']);
+    ->middleware(['auth', 'verified','role:Administrador|Oyente|Artista']);
 
 /* Ruta para Usuarios */
 Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])
@@ -169,29 +170,111 @@ Route::get('/dashboard/songs/{song}/edit', [SongController::class, 'edit'])
     ->middleware(['auth', 'verified']);
 /* Fin ruta para Canciones */
 
+/* Ruta para Roles */
+Route::post('/dashboard/roles/{id}/update', [RoleController::class, 'update'])
+    ->name('roles.update')
+    ->middleware(['auth', 'verified']);
 
+Route::delete('/dashboard/roles/{id}/delete', [RoleController::class, 'destroy'])
+    ->name('roles.destroy')
+    ->middleware(['auth', 'verified']);
 
-
-
-
-
-
+Route::post('/dashboard/roles/store/', [RoleController::class, 'store'])
+    ->name('roles.store')
+    ->middleware(['auth', 'verified']);
 
 Route::get('/dashboard/roles', [RoleController::class, 'index'])
     ->name('roles.index')
     ->middleware(['auth', 'verified']);
 
-Route::get('/dashboard/users-roles', [UserRoleController::class, 'index'])
+Route::get('/dashboard/roles/add', [RoleController::class, 'create'])
+    ->name('roles.create')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/roles/{role}/show', [RoleController::class, 'show'])
+    ->name('roles.show')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/roles/{role}/edit', [RoleController::class, 'edit'])
+    ->name('roles.edit')
+    ->middleware(['auth', 'verified']);
+/* Fin ruta para Roles */
+
+/* Ruta para Asignar Roles a Usuarios */
+Route::post('/dashboard/usersroles/{id}/update', [UserRoleController::class, 'update'])
+    ->name('usersroles.update')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/usersroles', [UserRoleController::class, 'index'])
     ->name('usersroles.index')
     ->middleware(['auth', 'verified']);
 
-Route::get('/dashboard/edit-roles-user/{id}', [UserRoleController::class, 'edit'])
-    ->name('usersroles.edit')
+Route::get('/dashboard/usersroles/{userrole}/show', [UserRoleController::class, 'show'])
+    ->name('usersroles.show')
     ->middleware(['auth', 'verified']);
 
-Route::post('/dashboard/update-roles/{user}', [UserRoleController::class, 'update'])
-    ->name('usersroles.update')
+Route::get('/dashboard/usersroles/{userrole}/edit', [UserRoleController::class, 'edit'])
+    ->name('usersroles.edit')
     ->middleware(['auth', 'verified']);
+/* Fin ruta para Asignar Roles a Usuarios */
+
+/* Ruta para Permisos */
+Route::post('/dashboard/permissions/{id}/update', [PermissionController::class, 'update'])
+    ->name('permissions.update')
+    ->middleware(['auth', 'verified']);
+
+Route::delete('/dashboard/permissions/{id}/delete', [PermissionController::class, 'destroy'])
+    ->name('permissions.destroy')
+    ->middleware(['auth', 'verified']);
+
+Route::post('/dashboard/permissions/store/', [PermissionController::class, 'store'])
+    ->name('permissions.store')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/permissions', [PermissionController::class, 'index'])
+    ->name('permissions.index')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/permissions/add', [PermissionController::class, 'create'])
+    ->name('permissions.create')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/permissions/{permission}/show', [PermissionController::class, 'show'])
+    ->name('permissions.show')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/permissions/{permission}/edit', [PermissionController::class, 'edit'])
+    ->name('permissions.edit')
+    ->middleware(['auth', 'verified']);
+/* Fin ruta para Permisos */
+
+/* Ruta para Asignar Permisos a Roles */
+Route::post('/dashboard/rolespermissions/{id}/update', [RolePermissionController::class, 'update'])
+    ->name('rolespermissions.update')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/rolespermissions', [RolePermissionController::class, 'index'])
+    ->name('rolespermissions.index')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/rolespermissions/{rolepermission}/show', [RolePermissionController::class, 'show'])
+    ->name('rolespermissions.show')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/dashboard/rolespermissions/{rolepermission}/edit', [RolePermissionController::class, 'edit'])
+    ->name('rolespermissions.edit')
+    ->middleware(['auth', 'verified']);
+/* Fin ruta para Asignar Permisos a Roles */
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/dashboard/permissions', [PermissionController::class, 'index'])
     ->name('permissions.index')

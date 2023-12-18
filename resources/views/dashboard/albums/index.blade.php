@@ -4,78 +4,91 @@
 @section('miga', 'Vista Principal del Panel de Albums')
 
 @section('addButton')
-    <div class="d-flex text-center">
-        <a class="btn btn-primary" href="{{ route('albums.create') }}"><i class="bi bi-plus"></i></a>
-    </div>
+    @can('crear-album')
+        <div class="d-flex text-center">
+            <a class="btn btn-primary" href="{{ route('albums.create') }}"><i class="bi bi-plus"></i></a>
+        </div>
+    @endcan
 @endsection
 
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        @if (session()->has('delete'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-trash3"></i>
-                {{ session('delete') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-        @elseif (session()->has('update'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check2-all"></i>
-                {{ session('update') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-        @elseif (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check2-all"></i>
-                {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-        @endif
-        <table id="albumsTable" class="display nowrap table table-striped responsive" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Título del Álbum</th>
-                    <th>Artista del Álbum</th>
-                    <th>Año</th>
-                    <th>Imagen</th>
-                    <th>Fecha de Creación</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($albums as $album)
+        @can('ver-tabla-album')
+            @if (session()->has('delete'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-trash3"></i>
+                    {{ session('delete') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @elseif (session()->has('update'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('update') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @elseif (session()->has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @endif
+            <table id="albumsTable" class="display nowrap table table-striped responsive" style="width:100%">
+                <thead>
                     <tr>
-                        <td>{{ $album->id }}</td>
-                        <td>{{ $album->title }}</td>
-                        <td>{{ $album->artista->name }}</td>
-                        <td>{{ $album->year }}</td>
-                        <td><img src="{{ asset($album->cover_img) }}" alt="{{ $album->title }}" class="img-fluid img-thumbnail" style="width: 70px; height: 70px;"></td>
-                        <td>{{ $album->created_at }}</td>
-                        <td>
-                            <div class="d-flex gap-3">
-                                <a class="btn btn-success" href="{{ route('albums.edit', $album->id) }}">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a class="btn btn-primary" href="{{ route('albums.show', $album) }}">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                                <form action="{{ route('albums.destroy', $album->id) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="bi bi-trash3">
-                                        </i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <th>Id</th>
+                        <th>Título del Álbum</th>
+                        <th>Artista del Álbum</th>
+                        <th>Año</th>
+                        <th>Imagen</th>
+                        <th>Fecha de Creación</th>
+                        <th>Fecha de Actualización</th>
+                        <th>Acción</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($albums as $album)
+                        <tr>
+                            <td>{{ $album->id }}</td>
+                            <td>{{ $album->title }}</td>
+                            <td>{{ $album->artista->name }}</td>
+                            <td>{{ $album->year }}</td>
+                            <td><img src="{{ asset($album->cover_img) }}" alt="{{ $album->title }}"
+                                    class="img-fluid img-thumbnail" style="width: 70px; height: 70px;"></td>
+                            <td>{{ $album->created_at }}</td>
+                            <td>{{ $album->updated_at }}</td>
+                            <td>
+                                <div class="d-flex gap-3">
+                                    @can('editar-album')
+                                        <a class="btn btn-success" href="{{ route('albums.edit', $album->id) }}">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    @endcan
+                                    @can('mostrar-album')
+                                        <a class="btn btn-primary" href="{{ route('albums.show', $album) }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    @endcan
+                                    @can('borrar-album')
+                                        <form action="{{ route('albums.destroy', $album->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="bi bi-trash3">
+                                                </i>
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcan
     </div>
 @endsection
 
@@ -105,7 +118,7 @@
     </script>
     <script>
         new DataTable('#albumsTable', {
-            order: [6, 'asc'],
+            order: [7, 'asc'],
             responsive: {
                 details: {
                     type: 'column',

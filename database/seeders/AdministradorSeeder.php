@@ -16,39 +16,32 @@ class AdministradorSeeder extends Seeder
     public function run()
     {
         // Crear un usuario de ejemplo
-        $administrador1 = User::create([
+        User::create([
             'name' => 'Administrador',
             'surname' => 'Administrador',
             'username' => 'Administrador',
             'email' => 'administrador@administrador.com',
             'password' => Hash::make('12341234'),
-        ]);
-
-        $administrador1->assignRole('Administrador');
+        ])->assignRole('Administrador');
 
         // Crear un usuario de ejemplo
-        $artista1 = User::create([
+        User::create([
             'name' => 'Pablo',
             'surname' => 'Chill-E',
             'username' => 'Pablo Chill-E',
-            'email' => 'pablochille@gmail.com',
+            'email' => 'artista@artista.com',
             'password' => Hash::make('12341234'),
             'email_verified_at' => now(),
-        ]);
-
-        $artista1->assignRole('Artista');
+        ])->assignRole('Artista');
 
         // Crear un usuario de ejemplo
-        $usuario1 = User::create([
+        User::create([
             'name' => 'Jean',
             'surname' => 'Saavedra',
             'username' => 'Jean7721',
-            'email' => 'jeansaavedra65@gmail.com',
+            'email' => 'oyente@oyente.com',
             'password' => Hash::make('12341234'),
             'email_verified_at' => now(),
-        ]);
-
-        $usuario1->assignRole('Usuario');
-        $usuario1->assignRole('Administrador');
+        ])->assignRole('Oyente');
     }
 }

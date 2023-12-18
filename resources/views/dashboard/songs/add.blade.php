@@ -24,11 +24,15 @@
                 </div>
             @endif
         @endif
-        <form method="POST" action="{{ route('songs.store') }}" novalidate>
+        <form method="POST" action="{{ route('songs.store') }}" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Título de la Cancion</label>
                 <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="mb-3 d-flex flex-column">
+                <label for="mp3">Cancion MP3</label>
+                <input type="file" name="mp3" id="mp3" accept="audio/*">
             </div>
             <div class="mb-3">
                 <label for="album_id" class="form-label">Album de la Canción</label>

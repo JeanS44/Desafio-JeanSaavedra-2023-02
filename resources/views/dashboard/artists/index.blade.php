@@ -4,72 +4,82 @@
 @section('miga', 'Vista Principal del Panel de Artistas')
 
 @section('addButton')
-    <div class="d-flex text-center">
-        <a class="btn btn-primary" href="{{ route('artists.create') }}"><i class="bi bi-plus"></i></a>
-    </div>
+    @can('crear-artista')
+        <div class="d-flex text-center">
+            <a class="btn btn-primary" href="{{ route('artists.create') }}"><i class="bi bi-plus"></i></a>
+        </div>
+    @endcan
 @endsection
 
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        @if (session()->has('delete'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-trash3"></i>
-                {{ session('delete') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-        @elseif (session()->has('update'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check2-all"></i>
-                {{ session('update') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-        @elseif (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check2-all"></i>
-                {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-        @endif
-        <table id="artistTable" class="display nowrap table table-striped responsive" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre del Artista</th>
-                    <th>Fecha de Creación</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($artists as $artist)
+        @can('ver-tabla-artista')
+            @if (session()->has('delete'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-trash3"></i>
+                    {{ session('delete') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @elseif (session()->has('update'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('update') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @elseif (session()->has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @endif
+            <table id="artistTable" class="display nowrap table table-striped responsive" style="width:100%">
+                <thead>
                     <tr>
-                        <td>{{ $artist->id }}</td>
-                        <td>{{ $artist->name }}</td>
-                        <td>{{ $artist->created_at }}</td>
-                        <td>
-                            <div class="d-flex gap-3">
-                                <a class="btn btn-success" href="{{ route('artists.edit', $artist->id) }}">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a class="btn btn-primary" href="{{ route('artists.show', $artist) }}">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                                <form action="{{ route('artists.destroy', $artist->id) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="bi bi-trash3">
-                                        </i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <th>Id</th>
+                        <th>Nombre del Artista</th>
+                        <th>Fecha de Creación</th>
+                        <th>Acción</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($artists as $artist)
+                        <tr>
+                            <td>{{ $artist->id }}</td>
+                            <td>{{ $artist->name }}</td>
+                            <td>{{ $artist->created_at }}</td>
+                            <td>
+                                <div class="d-flex gap-3">
+                                    @can('editar-artista')
+                                        <a class="btn btn-success" href="{{ route('artists.edit', $artist->id) }}">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    @endcan
+                                    @can('mostrar-artista')
+                                        <a class="btn btn-primary" href="{{ route('artists.show', $artist) }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    @endcan
+                                    @can('borrar-artista')
+                                        <form action="{{ route('artists.destroy', $artist->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="bi bi-trash3">
+                                                </i>
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcan
     </div>
 @endsection
 

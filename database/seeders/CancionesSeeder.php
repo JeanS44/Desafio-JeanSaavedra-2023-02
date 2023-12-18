@@ -24,6 +24,10 @@ class CancionesSeeder extends Seeder
                 'album_id' => $faker->randomElement($albumIds),
                 'title' => $faker->unique()->sentence(3),
                 'cover_img' => $faker->imageUrl(),
+                'mp3' => $faker->imageUrl(),
+                'extension' => 'mp3',
+                'duration' => $faker->numberBetween(100, 600),
+                'reproductions' => $faker->numberBetween(100, 100000),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

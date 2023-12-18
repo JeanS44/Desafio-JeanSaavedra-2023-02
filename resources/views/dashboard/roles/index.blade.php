@@ -3,26 +3,94 @@
 @section('title', 'Roles')
 @section('miga', 'Vista Principal del Panel de Roles')
 
+@section('addButton')
+    @can('crear-rol')
+        <div class="d-flex text-center">
+            <a class="btn btn-primary" href="{{ route('roles.create') }}"><i class="bi bi-plus"></i></a>
+        </div>
+    @endcan
+@endsection
+
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        <table id="rolesTable" class="display nowrap table table-striped responsive" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre del Rol</th>
-                    <th>Fecha de Creación</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($roles as $role)
+        @can('ver-tabla-rol')
+            @if (session()->has('delete'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-trash3"></i>
+                    {{ session('delete') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @elseif (session()->has('update'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('update') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @elseif (session()->has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @elseif (session()->has('alert'))
+                <div class="alert alert-success alert-warning fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    {{ session('alert') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @endif
+            <table id="rolesTable" class="display nowrap table table-striped responsive" style="width:100%">
+                <thead>
                     <tr>
-                        <td>{{ $role->id }}</td>
-                        <td>{{ $role->name }}</td>
-                        <td>{{ $role->created_at }}</td>
+                        <th>Id</th>
+                        <th>Nombre del Rol</th>
+                        <th>Fecha de Creación</th>
+                        <th>Acción</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($roles as $role)
+                        <tr>
+                            <td>{{ $role->id }}</td>
+                            <td>{{ $role->name }}</td>
+                            <td>{{ $role->created_at }}</td>
+                            <td>
+                                <div class="d-flex gap-3">
+                                    @can('editar-rol')
+                                        @if (!in_array($role->name, ['Administrador', 'Artista', 'Oyente']))
+                                            <a class="btn btn-success" href="{{ route('roles.edit', $role->id) }}">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        @endif
+                                    @endcan
+                                    @can('mostrar-rol')
+                                        <a class="btn btn-primary" href="{{ route('roles.show', $role) }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    @endcan
+                                    @can('borrar-rol')
+                                        @if (!in_array($role->name, ['Administrador', 'Artista', 'Oyente']))
+                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="bi bi-trash3">
+                                                    </i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcan
     </div>
 @endsection
 
@@ -52,6 +120,7 @@
     </script>
     <script>
         new DataTable('#rolesTable', {
+            order: [3, 'asc'],
             responsive: {
                 details: {
                     type: 'column',

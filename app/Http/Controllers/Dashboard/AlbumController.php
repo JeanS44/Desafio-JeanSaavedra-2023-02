@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-boton-musica|ver-album|ver-tabla-album|crear-album|editar-album|mostrar-album|borrar-album', ['only' => ['index']]);
+        $this->middleware('permission:crear-album', ['only' => ['create','store']]);
+        $this->middleware('permission:editar-album', ['only' => ['edit','update']]);
+        $this->middleware('permission:mostrar-album', ['only' => ['show']]);
+        $this->middleware('permission:borrar-album', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $albums = Album::with('artista')->latest()->get();

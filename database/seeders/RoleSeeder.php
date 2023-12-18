@@ -21,12 +21,12 @@ class RoleSeeder extends Seeder
             'updated_at' => Carbon::now('America/Santiago'),
         ]);
         Role::create([
-            'name' => 'Usuario',
+            'name' => 'Artista',
             'created_at' => Carbon::now('America/Santiago'),
             'updated_at' => Carbon::now('America/Santiago'),
         ]);
         Role::create([
-            'name' => 'Artista',
+            'name' => 'Oyente',
             'created_at' => Carbon::now('America/Santiago'),
             'updated_at' => Carbon::now('America/Santiago'),
         ]);

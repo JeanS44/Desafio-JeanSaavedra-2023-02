@@ -1,28 +1,64 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Permisos')
-@section('miga', 'Vista Principal del Panel de Permisos')
+@section('title', 'Asignar Permisos')
+@section('miga', 'Vista Principal del Panel de Asignación de Permisos')
 
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        <table id="permissionTable" class="display nowrap table table-striped responsive" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre del Permiso</th>
-                    <th>Fecha de Creación</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($permissions as $permission)
+        @can('ver-tabla-asignar-permiso')
+            @if (session()->has('update'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('update') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @endif
+            <table id="userPermissionsTable" class="display nowrap table table-striped responsive" style="width:100%">
+                <thead>
                     <tr>
-                        <td>{{ $permission->id }}</td>
-                        <td>{{ $permission->name }}</td>
-                        <td>{{ $permission->created_at }}</td>
+                        <th>Id</th>
+                        <th>Nombre del Rol</th>
+                        <th>Permisos Asignados</th>
+                        <th>Acción</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($getRoles as $role)
+                        <tr>
+                            <td>{{ $role->id }}</td>
+                            <td>{{ $role->name }} {{ $role->surname }}</td>
+                            <td>
+                                @php
+                                    $permissions = $role->getPermissionNames()->toArray();
+                                    $visiblePermissions = array_slice($permissions, 0, 4);
+                                    $remainingPermissions = count($permissions) - count($visiblePermissions);
+                                @endphp
+                                {{ implode(' - ', $visiblePermissions) }}
+                                @if ($remainingPermissions > 0)
+                                    <!-- Muestra la cantidad restante de permisos -->
+                                    y {{ $remainingPermissions }} permisos más...
+                                @endif
+                            </td>
+                            <td>
+                                <div class="d-flex gap-3">
+                                    @can('editar-asignar-permiso')
+                                        <a class="btn btn-success" href="{{ route('rolespermissions.edit', $role->id) }}">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    @endcan
+                                    @can('mostrar-asignar-permiso')
+                                        <a class="btn btn-primary" href="{{ route('rolespermissions.show', $role->id) }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcan
     </div>
 @endsection
 
@@ -51,7 +87,7 @@
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js" type="text/Javascript">
     </script>
     <script>
-        new DataTable('#permissionTable', {
+        new DataTable('#userPermissionsTable', {
             responsive: {
                 details: {
                     type: 'column',

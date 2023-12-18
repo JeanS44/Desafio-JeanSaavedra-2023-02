@@ -17,10 +17,16 @@ class CreateSongsTable extends Migration
             $table->id();
             $table->foreignId('album_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
+            $table->string('extension');
+            $table->integer('duration');
+            $table->integer('reproductions')->default(0);
             $table->string('cover_img');
+            $table->string('mp3');
             $table->timestamps();
         });
     }
+
+    
 
     /**
      * Reverse the migrations.

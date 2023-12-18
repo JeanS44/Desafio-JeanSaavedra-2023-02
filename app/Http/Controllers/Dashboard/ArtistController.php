@@ -9,6 +9,15 @@ use Illuminate\Auth\Events\Registered;
 
 class ArtistController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-boton-musica|ver-artista|ver-tabla-artista|crear-artista|editar-artista|mostrar-artista|borrar-artista', ['only' => ['index']]);
+        $this->middleware('permission:crear-artista', ['only' => ['create', 'store']]);
+        $this->middleware('permission:editar-artista', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:mostrar-artista', ['only' => ['show']]);
+        $this->middleware('permission:borrar-artista', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $artists = Artist::latest()->get();

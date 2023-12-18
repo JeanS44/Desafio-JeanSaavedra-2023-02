@@ -24,11 +24,35 @@
                 </div>
             @endif
         @endif
-        <form method="POST" action="{{ route('songs.update', $song->id) }}" novalidate>
+        <form method="POST" action="{{ route('songs.update', $song->id) }}" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Título de la Canción</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ $song->title }}">
+            </div>
+            <div class="mb-3 d-flex flex-column">
+                <label for="mp3">Mp3:</label>
+                <input type="file" name="mp3" id="mp3" accept=".jpg, .jpeg, .png"
+                    value="{{ asset($song->mp3) }}">
+            </div>
+            <div class="mb-3">
+                <label for="duration" class="form-label">Duración</label>
+                <input type="text" class="form-control" id="duration" name="duration"
+                    value="@php $durationInSeconds = $song->duration;
+                $minutes = floor($durationInSeconds / 60);
+                $seconds = $durationInSeconds % 60;
+                $formattedDuration = sprintf('%02d:%02d', $minutes, $seconds); @endphp {{ $formattedDuration }}"
+                    disabled>
+            </div>
+            <div class="mb-3">
+                <label for="extension" class="form-label">Extensión</label>
+                <input type="text" class="form-control" id="extension" name="extension" value="{{ $song->extension }}"
+                    disabled>
+            </div>
+            <div class="mb-3">
+                <label for="reproductions" class="form-label">Reproducciones:</label>
+                <input type="text" class="form-control" id="reproductions" name="reproductions" value="{{ $song->reproductions }}"
+                    disabled>
             </div>
             <div class="mb-3">
                 <label for="album_id" class="form-label">Album de la Canción</label>

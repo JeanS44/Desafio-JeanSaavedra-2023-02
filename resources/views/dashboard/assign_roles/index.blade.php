@@ -1,42 +1,60 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Roles')
+@section('title', 'Asignar Roles')
 @section('miga', 'Vista Principal del Panel de Asignación de Roles')
 
 @section('content')
     <div class=" align-items-center justify-content-between mb-4">
-        <table id="userRolesTable" class="display nowrap table table-striped responsive" style="width:100%">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Nombre y Apellido</th>
-                    <th>Nombre de Usuario</th>
-                    <th>Rol(es)</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($getUsers as $user)
+        @can('ver-tabla-asignar-rol')
+            @if (session()->has('update'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check2-all"></i>
+                    {{ session('update') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+            @endif
+            <table id="userRolesTable" class="display nowrap table table-striped responsive" style="width:100%">
+                <thead>
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }} {{ $user->surname }}</td>
-                        <td>{{ $user->username }}</td>
-                        <td>
-                            @php
-                                $roles = $user->getRoleNames()->toArray();
-                            @endphp
-                            {{ implode(' - ', $roles) }}
-                        </td>
-                        <td>
-                            <button data-toggle="modal" data-target="#editRolesModal"
-                                class="btn btn-success">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </td>
+                        <th>Id</th>
+                        <th>Nombre y Apellido</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Rol(es)</th>
+                        <th>Acción</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($getUsers as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }} {{ $user->surname }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>
+                                @php
+                                    $roles = $user->getRoleNames()->toArray();
+                                @endphp
+                                {{ implode(' - ', $roles) }}
+                            </td>
+                            <td>
+                                <div class="d-flex gap-3">
+                                    @can('editar-asignar-rol')
+                                        <a class="btn btn-success" href="{{ route('usersroles.edit', $user->id) }}">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    @endcan
+                                    @can('mostrar-asignar-rol')
+                                        <a class="btn btn-primary" href="{{ route('usersroles.show', $user->id) }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcan
     </div>
     <div class="modal fade" id="editRolesModal" tabindex="-1" role="dialog" aria-labelledby="editRolesModalLabel"
         aria-hidden="true">
