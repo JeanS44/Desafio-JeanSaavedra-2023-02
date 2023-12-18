@@ -16,254 +16,213 @@ use App\Http\Controllers\Dashboard\RolePermissionController;
 
 Route::get('/dashboard', DashboardController::class)
     ->name('dashboard.index')
-    ->middleware(['auth', 'verified','role:Administrador|Oyente|Artista']);
+    ->middleware(['auth', 'verified', 'role:Administrador']);
 
 /* Ruta para Usuarios */
-Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])
-    ->name('users.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/users', [UserController::class, 'index'])
+        ->name('users.index');
 
-Route::delete('/dashboard/users/{id}/delete', [UserController::class, 'destroy'])
-    ->name('users.destroy')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/users/add', [UserController::class, 'create'])
+        ->name('users.create');
 
-Route::post('/dashboard/users/store', [UserController::class, 'store'])
-    ->name('users.store')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/users/store', [UserController::class, 'store'])
+        ->name('users.store');
 
-Route::get('/dashboard/users', [UserController::class, 'index'])
-    ->name('users.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/users/{user}/show', [UserController::class, 'show'])
+        ->name('users.show');
 
-Route::get('/dashboard/users/add', [UserController::class, 'create'])
-    ->name('users.create')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/users/{user}/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
 
-Route::get('/dashboard/users/{user}/show', [UserController::class, 'show'])
-    ->name('users.show')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])
+        ->name('users.update');
 
-Route::get('/dashboard/users/{user}/edit', [UserController::class, 'edit'])
-    ->name('users.edit')
-    ->middleware(['auth', 'verified']);
+    Route::delete('/dashboard/users/{id}/delete', [UserController::class, 'destroy'])
+        ->name('users.destroy');
+});
 /* Fin ruta para Usuarios */
 
 /* Ruta para Artistas */
-Route::post('/dashboard/artists/{id}/update', [ArtistController::class, 'update'])
-    ->name('artists.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/artists', [ArtistController::class, 'index'])
+        ->name('artists.index');
 
-Route::delete('/dashboard/artists/{id}/delete', [ArtistController::class, 'destroy'])
-    ->name('artists.destroy')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/artists/add', [ArtistController::class, 'create'])
+        ->name('artists.create');
 
-Route::post('/dashboard/artists/store', [ArtistController::class, 'store'])
-    ->name('artists.store')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/artists/store', [ArtistController::class, 'store'])
+        ->name('artists.store');
 
-Route::get('/dashboard/artists', [ArtistController::class, 'index'])
-    ->name('artists.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/artists/{artist}/show', [ArtistController::class, 'show'])
+        ->name('artists.show');
 
-Route::get('/dashboard/artists/add', [ArtistController::class, 'create'])
-    ->name('artists.create')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/artists/{artist}/edit', [ArtistController::class, 'edit'])
+        ->name('artists.edit');
 
-Route::get('/dashboard/artists/{artist}/show', [ArtistController::class, 'show'])
-    ->name('artists.show')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/artists/{id}/update', [ArtistController::class, 'update'])
+        ->name('artists.update');
 
-Route::get('/dashboard/artists/{artist}/edit', [ArtistController::class, 'edit'])
-    ->name('artists.edit')
-    ->middleware(['auth', 'verified']);
-
-
+    Route::delete('/dashboard/artists/{id}/delete', [ArtistController::class, 'destroy'])
+        ->name('artists.destroy');
+});
 /* Fin ruta para Artistas */
 
 /* Ruta para Albums */
-Route::post('/dashboard/albums/{id}/update', [AlbumController::class, 'update'])
-    ->name('albums.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/albums', [AlbumController::class, 'index'])
+        ->name('albums.index');
 
-Route::delete('/dashboard/albums/{id}/delete', [AlbumController::class, 'destroy'])
-    ->name('albums.destroy')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/albums/add', [AlbumController::class, 'create'])
+        ->name('albums.create');
 
-Route::post('/dashboard/albums/store', [AlbumController::class, 'store'])
-    ->name('albums.store')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/albums/store', [AlbumController::class, 'store'])
+        ->name('albums.store');
 
-Route::get('/dashboard/albums', [AlbumController::class, 'index'])
-    ->name('albums.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/albums/{album}/show', [AlbumController::class, 'show'])
+        ->name('albums.show');
 
-Route::get('/dashboard/albums/add', [AlbumController::class, 'create'])
-    ->name('albums.create')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/albums/{album}/edit', [AlbumController::class, 'edit'])
+        ->name('albums.edit');
 
-Route::get('/dashboard/albums/{album}/show', [AlbumController::class, 'show'])
-    ->name('albums.show')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/albums/{id}/update', [AlbumController::class, 'update'])
+        ->name('albums.update');
 
-Route::get('/dashboard/albums/{album}/edit', [AlbumController::class, 'edit'])
-    ->name('albums.edit')
-    ->middleware(['auth', 'verified']);
+    Route::delete('/dashboard/albums/{id}/delete', [AlbumController::class, 'destroy'])
+        ->name('albums.destroy');
+});
 /* Fin ruta para Albums */
 
 /* Ruta para Géneros */
-Route::post('/dashboard/genres/{id}/update', [GenreController::class, 'update'])
-    ->name('genres.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/genres', [GenreController::class, 'index'])
+        ->name('genres.index');
 
-Route::delete('/dashboard/genres/{id}/delete', [GenreController::class, 'destroy'])
-    ->name('genres.destroy')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/genres/add', [GenreController::class, 'create'])
+        ->name('genres.create');
 
-Route::post('/dashboard/genres/store', [GenreController::class, 'store'])
-    ->name('genres.store')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/genres/store', [GenreController::class, 'store'])
+        ->name('genres.store');
 
-Route::get('/dashboard/genres', [GenreController::class, 'index'])
-    ->name('genres.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/genres/{genre}/show', [GenreController::class, 'show'])
+        ->name('genres.show');
 
-Route::get('/dashboard/genres/add', [GenreController::class, 'create'])
-    ->name('genres.create')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/genres/{genre}/edit', [GenreController::class, 'edit'])
+        ->name('genres.edit');
 
-Route::get('/dashboard/genres/{genre}/show', [GenreController::class, 'show'])
-    ->name('genres.show')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/genres/{id}/update', [GenreController::class, 'update'])
+        ->name('genres.update');
 
-Route::get('/dashboard/genres/{genre}/edit', [GenreController::class, 'edit'])
-    ->name('genres.edit')
-    ->middleware(['auth', 'verified']);
+    Route::delete('/dashboard/genres/{id}/delete', [GenreController::class, 'destroy'])
+        ->name('genres.destroy');
+});
 /* Fin ruta para Géneros */
 
 /* Ruta para Canciones */
-Route::post('/dashboard/songs/{id}/update', [SongController::class, 'update'])
-    ->name('songs.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/songs', [SongController::class, 'index'])
+        ->name('songs.index');
 
-Route::delete('/dashboard/songs/{id}/delete', [SongController::class, 'destroy'])
-    ->name('songs.destroy')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/songs/add', [SongController::class, 'create'])
+        ->name('songs.create');
 
-Route::post('/dashboard/songs/store/', [SongController::class, 'store'])
-    ->name('songs.store')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/songs/store', [SongController::class, 'store'])
+        ->name('songs.store');
 
-Route::get('/dashboard/songs', [SongController::class, 'index'])
-    ->name('songs.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/songs/{song}/show', [SongController::class, 'show'])
+        ->name('songs.show');
 
-Route::get('/dashboard/songs/add', [SongController::class, 'create'])
-    ->name('songs.create')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/songs/{song}/edit', [SongController::class, 'edit'])
+        ->name('songs.edit');
 
-Route::get('/dashboard/songs/{song}/show', [SongController::class, 'show'])
-    ->name('songs.show')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/songs/{id}/update', [SongController::class, 'update'])
+        ->name('songs.update');
 
-Route::get('/dashboard/songs/{song}/edit', [SongController::class, 'edit'])
-    ->name('songs.edit')
-    ->middleware(['auth', 'verified']);
+    Route::delete('/dashboard/songs/{id}/delete', [SongController::class, 'destroy'])
+        ->name('songs.destroy');
+});
 /* Fin ruta para Canciones */
 
 /* Ruta para Roles */
-Route::post('/dashboard/roles/{id}/update', [RoleController::class, 'update'])
-    ->name('roles.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/roles', [RoleController::class, 'index'])
+        ->name('roles.index');
 
-Route::delete('/dashboard/roles/{id}/delete', [RoleController::class, 'destroy'])
-    ->name('roles.destroy')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/roles/add', [RoleController::class, 'create'])
+        ->name('roles.create');
 
-Route::post('/dashboard/roles/store/', [RoleController::class, 'store'])
-    ->name('roles.store')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/roles/store', [RoleController::class, 'store'])
+        ->name('roles.store');
 
-Route::get('/dashboard/roles', [RoleController::class, 'index'])
-    ->name('roles.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/roles/{role}/show', [RoleController::class, 'show'])
+        ->name('roles.show');
 
-Route::get('/dashboard/roles/add', [RoleController::class, 'create'])
-    ->name('roles.create')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/roles/{role}/edit', [RoleController::class, 'edit'])
+        ->name('roles.edit');
 
-Route::get('/dashboard/roles/{role}/show', [RoleController::class, 'show'])
-    ->name('roles.show')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/roles/{id}/update', [RoleController::class, 'update'])
+        ->name('roles.update');
 
-Route::get('/dashboard/roles/{role}/edit', [RoleController::class, 'edit'])
-    ->name('roles.edit')
-    ->middleware(['auth', 'verified']);
+    Route::delete('/dashboard/roles/{id}/delete', [RoleController::class, 'destroy'])
+        ->name('roles.destroy');
+});
 /* Fin ruta para Roles */
 
 /* Ruta para Asignar Roles a Usuarios */
-Route::post('/dashboard/usersroles/{id}/update', [UserRoleController::class, 'update'])
-    ->name('usersroles.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/usersroles', [UserRoleController::class, 'index'])
+        ->name('usersroles.index');
 
-Route::get('/dashboard/usersroles', [UserRoleController::class, 'index'])
-    ->name('usersroles.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/usersroles/{userrole}/show', [UserRoleController::class, 'show'])
+        ->name('usersroles.show');
 
-Route::get('/dashboard/usersroles/{userrole}/show', [UserRoleController::class, 'show'])
-    ->name('usersroles.show')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/usersroles/{userrole}/edit', [UserRoleController::class, 'edit'])
+        ->name('usersroles.edit');
 
-Route::get('/dashboard/usersroles/{userrole}/edit', [UserRoleController::class, 'edit'])
-    ->name('usersroles.edit')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/usersroles/{id}/update', [UserRoleController::class, 'update'])
+        ->name('usersroles.update');
+});
 /* Fin ruta para Asignar Roles a Usuarios */
 
 /* Ruta para Permisos */
-Route::post('/dashboard/permissions/{id}/update', [PermissionController::class, 'update'])
-    ->name('permissions.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/permissions', [PermissionController::class, 'index'])
+        ->name('permissions.index');
 
-Route::delete('/dashboard/permissions/{id}/delete', [PermissionController::class, 'destroy'])
-    ->name('permissions.destroy')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/permissions/add', [PermissionController::class, 'create'])
+        ->name('permissions.create');
 
-Route::post('/dashboard/permissions/store/', [PermissionController::class, 'store'])
-    ->name('permissions.store')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/permissions/store', [PermissionController::class, 'store'])
+        ->name('permissions.store');
 
-Route::get('/dashboard/permissions', [PermissionController::class, 'index'])
-    ->name('permissions.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/permissions/{permission}/show', [PermissionController::class, 'show'])
+        ->name('permissions.show');
 
-Route::get('/dashboard/permissions/add', [PermissionController::class, 'create'])
-    ->name('permissions.create')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/permissions/{permission}/edit', [PermissionController::class, 'edit'])
+        ->name('permissions.edit');
 
-Route::get('/dashboard/permissions/{permission}/show', [PermissionController::class, 'show'])
-    ->name('permissions.show')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/permissions/{id}/update', [PermissionController::class, 'update'])
+        ->name('permissions.update');
 
-Route::get('/dashboard/permissions/{permission}/edit', [PermissionController::class, 'edit'])
-    ->name('permissions.edit')
-    ->middleware(['auth', 'verified']);
+    Route::delete('/dashboard/permissions/{id}/delete', [PermissionController::class, 'destroy'])
+        ->name('permissions.destroy');
+});
 /* Fin ruta para Permisos */
 
 /* Ruta para Asignar Permisos a Roles */
-Route::post('/dashboard/rolespermissions/{id}/update', [RolePermissionController::class, 'update'])
-    ->name('rolespermissions.update')
-    ->middleware(['auth', 'verified']);
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard/rolespermissions', [RolePermissionController::class, 'index'])
+        ->name('rolespermissions.index');
 
-Route::get('/dashboard/rolespermissions', [RolePermissionController::class, 'index'])
-    ->name('rolespermissions.index')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/rolespermissions/{rolepermission}/show', [RolePermissionController::class, 'show'])
+        ->name('rolespermissions.show');
 
-Route::get('/dashboard/rolespermissions/{rolepermission}/show', [RolePermissionController::class, 'show'])
-    ->name('rolespermissions.show')
-    ->middleware(['auth', 'verified']);
+    Route::get('/dashboard/rolespermissions/{rolepermission}/edit', [RolePermissionController::class, 'edit'])
+        ->name('rolespermissions.edit');
 
-Route::get('/dashboard/rolespermissions/{rolepermission}/edit', [RolePermissionController::class, 'edit'])
-    ->name('rolespermissions.edit')
-    ->middleware(['auth', 'verified']);
+    Route::post('/dashboard/rolespermissions/{id}/update', [RolePermissionController::class, 'update'])
+        ->name('rolespermissions.update');
+});
 /* Fin ruta para Asignar Permisos a Roles */
 
 

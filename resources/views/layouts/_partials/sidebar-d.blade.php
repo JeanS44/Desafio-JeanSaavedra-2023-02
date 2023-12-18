@@ -31,17 +31,17 @@
                 <i class="bi bi-person-circle"></i>
                 <span>Usuarios</span>
             </a>
-        @endcan
-        <div id="adminUsers" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                @can('ver-usuario')
-                    <a class="collapse-item" href="{{ route('users.index') }}">
-                        <i class="bi bi-people-fill"></i>
-                        Usuarios
-                    </a>
-                @endcan
+            <div id="adminUsers" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @can('ver-usuario')
+                        <a class="collapse-item" href="{{ route('users.index') }}">
+                            <i class="bi bi-people-fill"></i>
+                            Usuarios
+                        </a>
+                    @endcan
+                </div>
             </div>
-        </div>
+        @endcan
     </li>
 
 
@@ -52,39 +52,40 @@
                 <i class="fa-solid fa-music"></i>
                 <span>Música</span>
             </a>
-        @endcan
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                @can('ver-artista')
-                    <a class="collapse-item" href="{{ route('artists.index') }}">
-                        <i class="bi bi-person-add"></i>
-                        Artistas
-                    </a>
-                @endcan
-                @can('ver-album')
-                    <a class="collapse-item" href="{{ route('albums.index') }}">
-                        <i class="bi bi-disc-fill"></i>
-                        Albums
-                    </a>
-                @endcan
-                @can('ver-genero')
-                    <a class="collapse-item" href="{{ route('genres.index') }}">
-                        <i class="bi bi-blockquote-left"></i>
-                        Géneros
-                    </a>
-                @endcan
-                @can('ver-cancion')
-                    <a class="collapse-item" href="{{ route('songs.index') }}">
-                        <i class="bi bi-file-earmark-music-fill"></i>
-                        Canciones
-                    </a>
-                @endcan
-                {{-- <a class="collapse-item" href="{{ route('userssongs.index') }}">
+
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @can('ver-artista')
+                        <a class="collapse-item" href="{{ route('artists.index') }}">
+                            <i class="bi bi-person-add"></i>
+                            Artistas
+                        </a>
+                    @endcan
+                    @can('ver-album')
+                        <a class="collapse-item" href="{{ route('albums.index') }}">
+                            <i class="bi bi-disc-fill"></i>
+                            Albums
+                        </a>
+                    @endcan
+                    @can('ver-genero')
+                        <a class="collapse-item" href="{{ route('genres.index') }}">
+                            <i class="bi bi-blockquote-left"></i>
+                            Géneros
+                        </a>
+                    @endcan
+                    @can('ver-cancion')
+                        <a class="collapse-item" href="{{ route('songs.index') }}">
+                            <i class="bi bi-file-earmark-music-fill"></i>
+                            Canciones
+                        </a>
+                    @endcan
+                    {{-- <a class="collapse-item" href="{{ route('userssongs.index') }}">
                     <i class="bi bi-headset"></i>
                     Usuario - Canción
                 </a> --}}
+                </div>
             </div>
-        </div>
+        @endcan
     </li>
 
 
@@ -95,35 +96,35 @@
                 <i class="bi bi-key-fill"></i>
                 <span>Roles y permisos</span>
             </a>
-        @endcan
-        <div id="rolesYPermisos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                @can('ver-rol')
-                    <a class="collapse-item" href="{{ route('roles.index') }}">
-                        <i class="bi bi-person-lines-fill"></i>
-                        Roles
-                    </a>
-                @endcan
-                @can('ver-asignar-rol')
-                    <a class="collapse-item" href="{{ route('usersroles.index') }}">
-                        <i class="bi bi-plus-lg"></i>
-                        Asignar Roles
-                    </a>
-                @endcan
-                @can('ver-permiso')
-                    <a class="collapse-item" href="{{ route('permissions.index') }}">
-                        <i class="bi bi-key"></i>
-                        Permisos
-                    </a>
-                @endcan
-                @can('ver-asignar-permiso')
-                    <a class="collapse-item" href="{{ route('rolespermissions.index') }}">
-                        <i class="bi bi-ban"></i>
-                        Asignar Permisos
-                    </a>
-                @endcan
+            <div id="rolesYPermisos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @can('ver-rol')
+                        <a class="collapse-item" href="{{ route('roles.index') }}">
+                            <i class="bi bi-person-lines-fill"></i>
+                            Roles
+                        </a>
+                    @endcan
+                    @can('ver-asignar-rol')
+                        <a class="collapse-item" href="{{ route('usersroles.index') }}">
+                            <i class="bi bi-plus-lg"></i>
+                            Asignar Roles
+                        </a>
+                    @endcan
+                    @can('ver-permiso')
+                        <a class="collapse-item" href="{{ route('permissions.index') }}">
+                            <i class="bi bi-key"></i>
+                            Permisos
+                        </a>
+                    @endcan
+                    @can('ver-asignar-permiso')
+                        <a class="collapse-item" href="{{ route('rolespermissions.index') }}">
+                            <i class="bi bi-ban"></i>
+                            Asignar Permisos
+                        </a>
+                    @endcan
+                </div>
             </div>
-        </div>
+        @endcan
     </li>
 
 
